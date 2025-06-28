@@ -18,7 +18,8 @@ export const themes = {
 export function ThemeProvider({ children }) {
   const [currentTheme, setCurrentTheme] = useState(() => {
     const saved = localStorage.getItem('securechat-theme');
-    return saved || 'dark-blue';
+    // Check if the saved theme exists in our themes object, otherwise default to 'dark-blue'
+    return saved && themes[saved] ? saved : 'dark-blue';
   });
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export function ThemeProvider({ children }) {
       root.classList.remove(theme.class);
     });
     
-    // Add current theme class
+    // Add current theme class - now guaranteed to exist
     root.classList.add(themes[currentTheme].class);
     
     // Save to localStorage
